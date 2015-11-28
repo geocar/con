@@ -12,7 +12,7 @@
 #include <ctype.h>
 #include <sys/ioctl.h>
 
-ZI W,L,Y,X,p,f,c,n[5],j,hp,Q='q';ZC b[4096];ZK x,y,h;static struct pollfd P[2]={0};static struct termios G0,G1;ZS q[]={
+ZI D,W,L,Y,X,p,f,c,n[5],j,hp,Q='q';ZC b[4096];ZK x,y,h;static struct pollfd P[2]={0};static struct termios G0,G1;ZS q[]={
   "q){[x];a:.q.show;b:neg .z.w;.q.show::{x .Q.s y;}[b];@[{.q.show value x;};x;{x\"'\",y,\"\\n\"}[b]];.q.show::a;}",
   "k){a:.q.show;b:-.z.w;.q.show::{x .Q.s y;}[b];@[{x (-3!.:y),\"\\n\"}[b];x;{x\"'\",y,\"\\n\"}[b]];.q.show::a;}"
 };
@@ -32,13 +32,13 @@ int main(int argc,char *argv[]){
   tcgetattr(0,&G0);G1=G0;G1.c_iflag&=~(BRKINT|ICRNL|INPCK|ISTRIP|IXON);G1.c_oflag&=~OPOST;G1.c_cflag|=CS8;G1.c_lflag&=~(ECHO|ICANON|IEXTEN|ISIG);G1.c_cc[VMIN]=1;G1.c_cc[VTIME]=0;
   tcsetattr(0,TCSAFLUSH,&G1); c=1;setsockopt(f,SOL_SOCKET,SO_KEEPALIVE,&c,sizeof(c));gw(69);
 
-  P->fd=0;P[1].fd=f;af(0,1);af(1,0);r1(h);hp=hn;Y=X=0;x=nk();p=2;o1s("\r\x1b[6n");while(-1!=poll(P,2,-1))
+  D=0;P->fd=0;P[1].fd=f;af(0,1);af(1,0);r1(h);hp=hn;Y=X=0;x=nk();p=2;o1s("\r\x1b[6n");while(-1!=poll(P,2,-1))
     if(P[0].revents&POLLIN)switch(c=i0()){
       case 3:case -1:shutdown(f,SHUT_WR);break;
-      case 12:redraw:mc(Y,X);rp();o1(xC+2,xn-2);af(1,0);gotoxy:if(p!=xn){if(W>0)mc(Y+(p/W),X+(p%W));else{mc(Y,X);rp();o1(xC+2,p-2);}}break;
+      case 12:redraw:if(D)mc(Y+1,1);else mc(Y,X);rp();o1(xC+2,xn-2);af(1,1);gotoxy:if(p!=xn){I cx=X,cy=Y;if(D)cx=1,cy++;if(W>0)mc(cy+(p/W),cx+(p%W));else{mc(cy,cx);rp();o1(xC+2,p-2);}}break;
       case 8:case 127:if(p>2){if(p==xn)o1s("\b \b"),p--,--xn;else{o1s("\x1b[D");o1(xC+p,xn-p);o1c(' ');--p;goto del;}}break;//delete
       case 11:xn=p;o1s("\x1b[0J");break;case 4:del:if(p==xn)break;memmove(xC+p,xC+p+1,xn-(p+1));xn--;o1(xC+p,xn-p);if(xn==p)o1s(" \b");else{o1c(' ');goto gotoxy;}
-      case 1:p=2;mc(Y,X);o1s("\x1b[2C");break;case 2:back:if(p>2){--p;o1s("\x1b[D");}break;case 6:forward:if(p<xn){++p;o1s("\x1b[C");}break;
+      case 1:p=2;if(D)mc(Y+1,3);else mc(Y,X+2);break;case 2:back:if(p>2){--p;o1s("\x1b[D");}break;case 6:forward:if(p<xn){++p;o1s("\x1b[C");}break;
       case 16:up:if(!hp)break;if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x;--hp;x=kK(h)[hp];goto redraw; case 14:down:if((hp+1)>=hn)break;kK(h)[hp]=x;++hp;x=kK(h)[hp];goto redraw;
       case 27:switch((c=i0())){
         case 'b':if(p==2)break;--p;while(p>2&&cc(xC[p])==cc(xC[p-1]))--p;goto gotoxy; case 'f':if(p==xn)break;++p;while(p<xn&&cc(xC[p])==cc(xC[p+1]))++p;goto gotoxy;
@@ -47,5 +47,5 @@ int main(int argc,char *argv[]){
         }};break;
       case '\r':case '\n':c=(xn==3&&xC[2]=='\\');if(!c&&xn>2)k(-f,q[Q=='k'],r1(x),0,0);if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x; hp=hn; if(c)Q=*q[Q!='k']; x=nk();p=2;af(1,0);break;
       default:if(p==xn){ja(&x,b);xC[p]=c;o1c(c);++p;break;}ja(&x,b);memmove(xC+p+1,xC+p,xn-(p+1));xC[p]=c;o1(xC+p,1+(xn-p));++p;goto gotoxy;
-    } else if(P[1].revents&POLLIN){if(0>=(c=read(f,b,4096)))break;if(af(0,0))mc(Y,X);o1(b,c);if(b[c-1]=='\n')af(0,1),o1s("\r\x1b[6n");}
+    } else if(P[1].revents&POLLIN){if(0>=(c=read(f,b,4096)))break;mc(Y,X);o1(b,c);if(b[c-1]=='\n')o1s("\r\x1b[6n"),D=0;else o1s("\x1b[6n\r\n"),D=1;af(1,0);}
   o1s("\r\n");tcsetattr(0,TCSAFLUSH,&G0);x=b9(0,h);ox(oh(".conhistory",O_RDWR|O_CREAT),xC,xn);R 0;}

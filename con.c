@@ -29,7 +29,7 @@ int main(int argc,char *argv[]){I Y,X,p,f,c,d=0,n[5],j,h;C b[4096];K x,y,H;struc
   if(-1==(f=khpu(argc==2?"127.0.0.1":argv[1],atoi(argv[argc-1]),getenv("USER")))){oxs(2,"kdb: ");oxs(2,strerror(errno));oxs(2,"\n");R 2;}
   H=ktn(0,0);if(-1!=(c=oh(".conhistory",O_RDONLY))){struct stat sb;if(-1!=fstat(c,&sb)){x=ktn(KC,sb.st_size);for(p=0;p<xn;p+=j)if(0>=(j=read(c,xC+p,xn-p)))break;H=d9(x);}close(c);}
   tcgetattr(0,&G0);G1=G0;G1.c_iflag&=~(BRKINT|ICRNL|INPCK|ISTRIP|IXON);G1.c_oflag&=~OPOST;G1.c_cflag|=CS8;G1.c_lflag&=~(ECHO|ICANON|IEXTEN|ISIG);G1.c_cc[VMIN]=1;G1.c_cc[VTIME]=0;
-  tcsetattr(0,TCSAFLUSH,&G1);
+  tcsetattr(0,TCSAFLUSH,&G1); c=1;setsockopt(f,SOL_SOCKET,SO_KEEPALIVE,&c,sizeof(c));
 
   P->fd=0;P[1].fd=f;DO(2,P[i].events=POLLIN|POLLHUP);
   h=r1(H)->n;Y=X=0;x=nk(0);p=2;while(-1!=poll(P,2,-1))

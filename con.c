@@ -39,7 +39,7 @@ int main(int argc,char *argv[]){
       case 8:case 127:if(p>2){if(p==xn)o1s("\b \b"),p--,--xn;else{o1s("\x1b[D");o1(xC+p,xn-p);o1c(' ');--p;goto del;}}break;//delete
       case 11:xn=p;o1s("\x1b[0J");break;case 4:del:if(p==xn)break;memmove(xC+p,xC+p+1,xn-(p+1));xn--;o1(xC+p,xn-p);if(xn==p)o1s(" \b");else{o1c(' ');goto gotoxy;}
       case 1:p=2;if(D)mc(Y+1,3);else mc(Y,X+2);break;case 2:back:if(p>2){--p;o1s("\x1b[D");}break;case 6:forward:if(p<xn){++p;o1s("\x1b[C");}break;
-      case 16:up:if(!hp)break;if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x;--hp;x=kK(h)[hp];goto redraw; case 14:down:if((hp+1)>=hn)break;kK(h)[hp]=x;++hp;x=kK(h)[hp];goto redraw;
+      case 16:up:if(!hp)break;if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x;--hp;x=kK(h)[hp];p=xn;goto redraw; case 14:down:if((hp+1)>=hn)break;kK(h)[hp]=x;++hp;x=kK(h)[hp];p=xn;goto redraw;
       case 27:switch((c=i0())){
         case 'b':if(p==2)break;--p;while(p>2&&cc(xC[p])==cc(xC[p-1]))--p;goto gotoxy; case 'f':if(p==xn)break;++p;while(p<xn&&cc(xC[p])==cc(xC[p+1]))++p;goto gotoxy;
         case '[':memset(n,0,sizeof(n));j=0;do{while((c=i0())>='0'&&c<='9'&&j<5)n[j]=(c-'0')+(n[j]*10);++j;}while(c==';');switch(c){

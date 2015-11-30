@@ -25,7 +25,7 @@ ZI oh(S x,I m){I f,d;S h=getenv("HOME");d=open(".",O_RDONLY);if(h)chdir(h);f=ope
 ZV sw(V){k(-f,"k){.:\"\\\\c \",\" \"/:$x,y}",ki(L),ki(W),0);}ZI i0(V){C b[4];if(read(0,b,1)==1)R *b;R -1;}
 ZV gw(I _){struct winsize ws={0};ioctl(0,TIOCGWINSZ,&ws);if(!ws.ws_col)ioctl(1,TIOCGWINSZ,&ws);L=ws.ws_row;W=ws.ws_col;if(L>0&&W>0)sw();signal(SIGWINCH,gw);}
 ZK gk(K*y){/*little-endian*/K x=*y,r;I m;if(xn<8)R 0;if(xn<(m=xI[1]))R 0;if(xn==m){*y=r1(ktn(KC,0));R x;}r=ktn(xt,m);memcpy(r->G0,xC,m);memmove(xC,xC+m,xn-m);xn-=m;R r;}
-ZI o1k(K x){o1(xC,xn);R xC[xn-1]=='\n';}
+ZI o1k(K x){o1(xC,xn);R xC[xn-1]=='\n';}ZV sk(V){if(xn==3&&xC[2]=='\\')Q=*q[Q!='k'];else if(xn>2)k(-f,q[Q=='k'],r1(x),0,0);}
 #define hn h->n
 //position fd(kdb) char displaymode
 int main(int argc,char *argv[]){
@@ -47,7 +47,7 @@ int main(int argc,char *argv[]){
       case 27:switch((c=i0())){
         case 'b':if(p==2)break;--p;while(p>2&&cc(xC[p])==cc(xC[p-1]))--p;goto gotoxy; case 'f':if(p==xn)break;++p;while(p<xn&&cc(xC[p])==cc(xC[p+1]))++p;goto gotoxy;
         case '[':switch(c=i0()){case 'D':goto back;case 'C':goto forward;case '3':if(i0()=='~')goto del;break; case 'A':goto up;case 'B':goto down;}};break;
-      case '\r':case '\n':c=(xn==3&&xC[2]=='\\');if(!c&&xn>2)k(-f,q[Q=='k'],r1(x),0,0);if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x; hp=hn; if(c)Q=*q[Q!='k']; nk();o1s("\n\0337");D=1;rp();break;
+      case 15:sk();o1s("\n");goto redraw; case '\r':case '\n':sk();if(xn>2){if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x; hp=hn;nk();} o1s("\n\0337");D=1;rp();break;
       default:if(p==xn){ja(&x,b);xC[p]=c;o1c(c);++p;break;}ja(&x,b);memmove(xC+p+1,xC+p,xn-(p+1));xC[p]=c;o1(xC+p,1+(xn-p));++p;goto gotoxy;
     } else if(P[1].revents&POLLIN){if(0>=(c=read(f,b,4096)))break; jv(&z,kpn(b,c));while((y=gk(&z)))switch((y=d9(y))->t){
       case KC: if(y->n){o1s("\0338\033[0J");D=o1k(y);o1s("\0337");goto redraw;}}}

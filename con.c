@@ -42,7 +42,7 @@ int main(int argc,char *argv[]){
       case 12:redraw:mh();o1s("\033[0J");rp();o1(xC+2,xn-2);if(p==xn)break; gotoxy:mh();mr(p/W,p%W);break;
       case 8:case 127:if(p==2)break;if(((p-1)/W)==(p/W))o1s("\033[D");else{o1s("\033[A");mr(0,W-1);} --p;goto del;//delete
       case 11:xn=p;o1s("\033[0J");break;case 4:del:if(p==xn)break;memmove(xC+p,xC+p+1,xn-(p+1));xn--;o1(xC+p,xn-p);o1c(' ');goto gotoxy;case 21:xn=p=2;goto redraw;
-      case 1:if(p<W){mr(0,p=2);break;} p=2;goto gotoxy;
+      case 1:if(p<W){mr(0,p=2);break;} p=2;goto gotoxy; case 5:p=xn;goto gotoxy;
       case 2:back:if(p==2)break;if(((p-1)/W)==(p/W)){o1c('\b');--p;break;} --p;goto gotoxy; case 6:forward:if(p==xn)break;o1c(xC[p]);++p;break;
       case 16:up:if(!hp)break;if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x;--hp;x=kK(h)[hp];p=xn;goto redraw; case 14:down:if((hp+1)>=hn)break;kK(h)[hp]=x;++hp;x=kK(h)[hp];p=xn;goto redraw;
       case 27:switch((c=i0())){

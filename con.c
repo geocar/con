@@ -49,7 +49,7 @@ int main(int argc,char *argv[]){
         case 'b':if(p==2)break;--p;while(p>2&&cc(xC[p])==cc(xC[p-1]))--p;goto gotoxy; case 'f':if(p==xn)break;++p;while(p<xn&&cc(xC[p])==cc(xC[p+1]))++p;goto gotoxy;
         case '[':switch(c=i0()){case 'D':goto back;case 'C':goto forward;case '3':if(i0()=='~')goto del;break; case 'A':goto up;case 'B':goto down;}};break;
       case 15:sk();o1s("\n");goto redraw; case '\r':case '\n':sk();if(xn>2){if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x; hp=hn;nk();} o1s("\n\0337");D=1;rp();break;
-      default:if(p==xn){ja(&x,b);xC[p]=c;o1c(c);++p;break;}ja(&x,b);memmove(xC+p+1,xC+p,xn-(p+1));xC[p]=c;o1(xC+p,1+(xn-p));++p;goto gotoxy;
+      default:if(p==xn){ja(&x,b);xC[p]=c;o1c(c);++p;break;}ja(&x,b);memmove(xC+p+1,xC+p,xn-p);xC[p]=c;o1(xC+p,(xn-p));++p;goto gotoxy;
     } else if(P[1].revents&POLLIN){if(0>=(c=read(f,b,4096)))break; jv(&z,kpn(b,c));while((y=gk(&z)))switch((y=d9(y))->t){
       case KC: if(y->n){o1s("\0338\033[0J");D=o1k(y);o1s("\0337");goto redraw;}}}
   o1c('\n');tcsetattr(0,TCSAFLUSH,&G0);x=b9(0,h);ox(oh(".conhistory",O_RDWR|O_CREAT),xC,xn);R 0;}

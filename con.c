@@ -19,7 +19,7 @@ ZI D,W,L,p,f,c,n[5],j,hp,Q='q';ZC b[4096];ZK x,y,z,h;static struct pollfd P[2]={
 ZI cc(I x){R (x>='0'&&x<='9')?'0':(x>='a'&&x<='z')?'a':(x>='A'&&x<='Z')?'a':x;} ZS sd(S p,I n){if(n>=10)p=sd(p,n/10);*p='0'+(n%10);R p+1;}
 ZI ox(I f,S x,I n){I r;while(n>0)if((r=write(f,x,n))<=0)break;else x+=r,n-=r;R 1;}ZI o1(S x,I n){ox(1,x,n);}ZI o1c(I c){C b[4]={c,0,0,0};R o1(b,1);}
 ZI oxs(I f,S x){R ox(f,x,strlen(x));}ZI o1s(S x){R oxs(1,x);}
-ZV mr(I y,I x){C*p,b[99]={27,'['};p=sd(b+2,x);*p++='G';if(y>0){*p++=27;*p++='[';p=sd(p,y);*p++='B';}*p=0;o1s(b);}ZV mh(V){C b[4]={27,8,0,0};b[3]=D*'\n';o1s(b);}
+ZV mr(I y,I x){C*p,b[99]={27,'['};p=sd(b+2,x+1);*p++='G';if(y>0){*p++=27;*p++='[';p=sd(p,y);*p++='B';}*p=0;o1s(b);}ZV mh(V){C b[4]={27,8,0,0};b[3]=D*'\n';o1s(b);}
 ZV rp(V){if('k'==Q)o1s("  ");else o1(xC,2);} ZV nk(V){x=ktn(KC,p=2);kC(x)[1]=')';kC(x)[0]=Q;}
 ZI oh(S x,I m){I f,d;S h=getenv("HOME");d=open(".",O_RDONLY);if(h)chdir(h);f=open(x,m,0666);fchdir(d);close(d);R f;}
 ZV sw(V){k(-f,"k){.:\"\\\\c \",\" \"/:$x,y}",ki(L),ki(W),0);}ZI i0(V){C b[4];if(read(0,b,1)==1)R *b;R -1;}
@@ -39,8 +39,8 @@ int main(int argc,char *argv[]){
     if(P[0].revents&POLLIN)switch(c=i0()){
       case 3:case -1:shutdown(f,SHUT_WR);break;
       case 12:redraw:mh();o1s("\033[0J");rp();o1(xC+2,xn-2);if(p==xn)break; gotoxy:mh();mr(p/W,p%W);break;
-      case 8:case 127:if(p>2){if(p==xn)o1s("\b \b"),p--,--xn;else{/*bug*/o1s("\033[D");o1(xC+p,xn-p);o1c(' ');--p;goto del;}}break;//delete
-      case 11:xn=p;o1s("\033[0J");break;case 4:del:if(p==xn)break;memmove(xC+p,xC+p+1,xn-(p+1));xn--;o1(xC+p,xn-p);if(xn==p&&((p+1)/W)==(p/W))o1s(" \b");else{o1c(' ');goto gotoxy;}
+      case 8:case 127:if(p==2)break;if(((p-1)/W)==(p/W))o1s("\033[D");else{o1s("\033[A");mr(0,W-1);} --p;goto del;//delete
+      case 11:xn=p;o1s("\033[0J");break;case 4:del:if(p==xn)break;memmove(xC+p,xC+p+1,xn-(p+1));xn--;o1(xC+p,xn-p);o1c(' ');goto gotoxy;
       case 1:if(p<W){mr(0,p=2);break;} p=2;goto gotoxy;
       case 2:back:if(p==2)break;if(((p-1)/W)==(p/W)){o1c('\b');--p;break;} --p;goto gotoxy; case 6:forward:if(p==xn)break;o1c(xC[p]);++p;break;
       case 16:up:if(!hp)break;if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x;--hp;x=kK(h)[hp];p=xn;goto redraw; case 14:down:if((hp+1)>=hn)break;kK(h)[hp]=x;++hp;x=kK(h)[hp];p=xn;goto redraw;

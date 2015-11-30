@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <termios.h>
 #include <string.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>

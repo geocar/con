@@ -9,5 +9,5 @@ con.darwin: con.c
 	gcc-5 -O3 -s -DKXVER=3 -I$(HOME)/q/c -o $@ $< $(HOME)/q/c/m64/c.o 
 
 con.linux: con.c
-	gcc -O3 -s -DKXVER=3 -I$(HOME)/q/c -o $@ $< $(HOME)/q/c/l64/c.o 
+	gcc -O3 -s -DKXVER=3 -I$(HOME)/q/c -o $@ $< $(HOME)/q/c/l64/c.o -lpthread
 

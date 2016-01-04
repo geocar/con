@@ -25,6 +25,7 @@ ZV mr(I y,I x){C*p,b[99]={27,'['};p=sd(b+2,x+1);*p++='G';if(y>0){*p++=27;*p++='[
 ZV rp(V){if('k'==Q)o1s("  ");else o1(xC,2);} ZV nk(V){x=ktn(KC,p=2);kC(x)[1]=')';kC(x)[0]=Q;}
 ZI oh(S x,I m){I f,d;S h=getenv("HOME");d=open(".",O_RDONLY);if(h)chdir(h);f=open(x,m,0666);fchdir(d);close(d);R f;}
 ZV sw(V){k(-f,"k){.:\"\\\\c \",\" \"/:$x,y}",ki(L),ki(W),0);}ZI in(I f,I n){I r;do r=read(f,b,n);while(r==-1&&errno==EINTR);R r;} ZI i0(V){R(in(0,1)==1)?*b:-1;}
+ZV gx(I _){if(T){o1c('\n');tcsetattr(1,TCSADRAIN,&G0);x=b9(0,h);ox(oh(".conhistory",O_RDWR|O_CREAT),xC,xn);}exit(0);}
 ZV gw(I _){struct winsize ws={0};ioctl(0,TIOCGWINSZ,&ws);if(!ws.ws_col)ioctl(1,TIOCGWINSZ,&ws);L=ws.ws_row;W=ws.ws_col;if(L>0&&W>0)sw();signal(SIGWINCH,gw);}
 ZK gk(K*y){/*little-endian*/K x=*y,r;I m;if(xn<8)R 0;if(xn<(m=xI[1]))R 0;if(xn==m){*y=r1(ktn(KC,0));R x;}r=ktn(xt,m);memcpy(r->G0,xC,m);memmove(xC,xC+m,xn-m);xn-=m;R r;}
 ZI o1k(K x){o1(xC,xn);R xC[xn-1]=='\n';}ZV sk(V){if(xn==3&&xC[2]=='\\')Q=*q[Q!='k'];else if(xn>2)k(-f,q[Q=='k'],r1(x),0,0);} ZV c0(V){shutdown(f,SHUT_WR);close(0);P[0].events=0;}
@@ -33,8 +34,8 @@ ZI o1k(K x){o1(xC,xn);R xC[xn-1]=='\n';}ZV sk(V){if(xn==3&&xC[2]=='\\')Q=*q[Q!='
 int main(int argc,char *argv[]){
   if(argc == 1){oxs(2,"Usage: ");oxs(2,*argv);oxs(2," [host] port\n");R 1;}
   if(-1==(f=khpu(argc==2?"127.0.0.1":argv[1],atoi(argv[argc-1]),getenv("USER")))){oxs(2,"kdb: ");oxs(2,strerror(errno));oxs(2,"\n");R 2;}
-  if((T=!tcgetattr(0,&G0))){
-    G1=G0;G1.c_iflag&=~(BRKINT|ICRNL|INPCK|ISTRIP|IXON);G1.c_cflag|=CS8;G1.c_lflag&=~(ECHO|ICANON|IEXTEN|ISIG);G1.c_cc[VMIN]=1;G1.c_cc[VTIME]=0;tcsetattr(0,TCSAFLUSH,&G1);
+  if((T=!tcgetattr(1,&G0))){
+    G1=G0;G1.c_iflag&=~(BRKINT|ICRNL|INPCK|ISTRIP|IXON);G1.c_cflag|=CS8;G1.c_lflag&=~(ECHO|ICANON|IEXTEN|ISIG);G1.c_cc[VMIN]=1;G1.c_cc[VTIME]=0;tcsetattr(1,TCSAFLUSH,&G1);signal(SIGINT,gx);signal(SIGQUIT,gx);
     h=ktn(0,0);if(-1!=(c=oh(".conhistory",O_RDONLY))){struct stat sb;if(-1!=fstat(c,&sb)){x=ktn(KC,sb.st_size);for(p=0;p<xn;p+=j)if(0>=(j=read(c,xC+p,xn-p)))break;h=d9(x);}close(c);}r1(h);hp=hn;}
   c=1;setsockopt(f,SOL_SOCKET,SO_KEEPALIVE,&c,sizeof(c));gw(69);
 
@@ -55,4 +56,4 @@ int main(int argc,char *argv[]){
       case 15:sk();o1s("\n");goto redraw; case '\r':case '\n':sk();if(xn>2){if(hp==hn)jk(&h,r1(x));else kK(h)[hp]=x; hp=hn;nk();} o1s("\n\0337");D=1;rp();break;
       default:if(p==xn){ja(&x,b);xC[p]=c;o1c(c);++p;break;}ja(&x,b);memmove(xC+p+1,xC+p,xn-p);xC[p]=c;o1(xC+p,(xn-p));++p;goto gotoxy;
     } else if(0>=(c=in(0,4096)))c0();else{j=0;DO(c,if(d0(b[i])){jv(&x,kpn(b+j,i-j));sk();r0(x);j=i+1;nk();});if(j!=c)jv(&x,kpn(b+j,c-j));}
-  if(T){o1c('\n');tcsetattr(0,TCSAFLUSH,&G0);x=b9(0,h);ox(oh(".conhistory",O_RDWR|O_CREAT),xC,xn);} R 0;}
+  gx(69);}

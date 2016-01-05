@@ -28,7 +28,8 @@ ZV sw(V){k(-f,"k){.:\"\\\\c \",\" \"/:$x,y}",ki(L),ki(W),0);}ZI in(I f,I n){I r;
 ZV gx(I _){if(T){o1c('\n');tcsetattr(1,TCSADRAIN,&G0);x=b9(0,h);ox(oh(".conhistory",O_RDWR|O_CREAT),xC,xn);}exit(0);}
 ZV gw(I _){struct winsize ws={0};ioctl(0,TIOCGWINSZ,&ws);if(!ws.ws_col)ioctl(1,TIOCGWINSZ,&ws);L=ws.ws_row;W=ws.ws_col;if(L>0&&W>0)sw();signal(SIGWINCH,gw);}
 ZK gk(K*y){/*little-endian*/K x=*y,r;I m;if(xn<8)R 0;if(xn<(m=xI[1]))R 0;if(xn==m){*y=r1(ktn(KC,0));R x;}r=ktn(xt,m);memcpy(r->G0,xC,m);memmove(xC,xC+m,xn-m);xn-=m;R r;}
-ZI o1k(K x){o1(xC,xn);R xC[xn-1]=='\n';}ZV sk(V){if(xn==3&&xC[2]=='\\')Q=*q[Q!='k'];else if(xn>2)k(-f,q[Q=='k'],r1(x),0,0);} ZV c0(V){shutdown(f,SHUT_WR);close(0);P[0].events=0;}
+ZI o1k(K x){o1(xC,xn);R xC[xn-1]=='\n';}ZV sk(V){if(xn==3&&xC[2]=='\\')Q=*q[Q!='k'];else if(xn==4&&!memcmp(xC+2,"\\\\",2))R gx(0);else if(xn>2)k(-f,q[Q=='k'],r1(x),0,0);}
+ZV c0(V){shutdown(f,SHUT_WR);close(0);P[0].events=0;}
 #define hn h->n
 //position fd(kdb) char displaymode
 int main(int argc,char *argv[]){
